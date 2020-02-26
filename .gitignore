@@ -1,0 +1,56 @@
+*.py[co]
+*.pyj-cached
+
+# Packages
+*.egg
+*.egg-info
+dist
+persist.db
+martd.db
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+*.log
+
+# Unit test / coverage reports
+.coverage
+.tox
+.log
+.idea
+.DS_Store
+
+#Translations
+*.mo
+
+#Mr Developer
+.mr.developer.cfg
+
+#virtual env folder
+envproj*
+env
+proj
+.virtualenv
+.env
+
+static_root/
+media/
+
+# swp files
+*.swp
+
+# py.test
+*.cache/
+*__pycache__/*
+
+# Python files
+settings_local.py
+static_files/*
+migrations/
