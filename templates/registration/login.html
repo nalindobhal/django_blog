@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock css %}
+{% block content %}
+    <div class="login-page">
+        <div class="form">
+            {{ errors }}
+            <form class="register-form {% if request.path == '/accounts/login/' %}hidden{% endif %}" method="post"
+                  action="{% url "signup" %}">
+                <p class="login_text_inner">Sign up to continue</p>
+                {% csrf_token %}
+                <input type="text" placeholder="Username" name="username" id="id_username" required="required"/>
+                <input type="password" placeholder="Password" name="password1" id="id_password1" required="required"/>
+                <input type="password" placeholder="Password (Confirm)" name="password2" id="id_password2"
+                       required="required"/>
+                <input type="email" placeholder="Email" name="email" id="id_email" required="required"/>
+                <button>sign up</button>
+                <p class="message">Already registered? <a href="javascript:void(0);">Sign In</a></p>
+            </form>
+
+            <form action="{% url 'login' %}"
+                  class="login-form {% if request.path == '/accounts/signup/' %}hidden{% endif %}" method="post">
+                <p class="login_text_inner">Log in to continue</p>
+                {% csrf_token %}
+                <input id="id_username" type="text" placeholder="Email" name="username" required/>
+                <input id="id_password" type="password" placeholder="Password" name="password" required/>
+                <button>login</button>
+                <p class="message">Not registered? <a href="javascript:void(0);">Create an account</a></p>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

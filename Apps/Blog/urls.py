@@ -1,4 +1,9 @@
 from django.urls.conf import path
+from django.contrib.auth.views import LogoutView
+
+from .views import (
+CustomLoginView, registration_view, LoginView
+)
 
 urlpatterns = [
     # path('^$', index, name='home'),
@@ -14,13 +19,9 @@ urlpatterns = [
     # path(r'^category/(?P<slug>[\w.@+-]+)/$', category_view, name='category'),
 
     # path(r'^api/comment/$', login_required(submit_comment, login_url=settings.REDIRECT_TO_LOGIN), name='comment'),
-    # path(r'^api/blog_like/$', login_required(like_article, login_url=settings.REDIRECT_TO_LOGIN), name='blog_like'),
-    # path(r'^api/comment_like/$', login_required(like_comment, login_url=settings.REDIRECT_TO_LOGIN),
-    #     name='comment_like'),
-    # path(r'^api/comment_edit/$', login_required(edit_comment, login_url=settings.REDIRECT_TO_LOGIN),
-    #     name='comment_edit'),
-    # path(r'^api/comment_delete/$', login_required(delete_comment, login_url=settings.REDIRECT_TO_LOGIN),
-    #     name='comment_delete'),
-    # path(r'^api/comment_spam/$', login_required(spam_comment, login_url=settings.REDIRECT_TO_LOGIN),
-    #     name='comment_delete'),
+
+    # Auth urls
+    path('accounts/login/', CustomLoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('accounts/signup/', registration_view, name='signup'),
+    path('accounts/logout/', LogoutView.as_view(next_page="/accounts/login/"), name='logout'),
 ]
