@@ -2,12 +2,14 @@ from django.urls.conf import path
 from django.contrib.auth.views import LogoutView
 
 from .views import (
+index, BlogApiView,
 CustomLoginView, registration_view, LoginView
 )
 
 urlpatterns = [
-    # path('^$', index, name='home'),
-    # path(r'^blogs/add/$', AddBlog.as_view(), name='add_blog'),
+    path('', index, name='index_page'),
+    path('blogs/', BlogApiView.as_view(), name='index_page'),
+    path('blogs/add/', BlogApiView.as_view(), name='add_blog'),
     # path(r'^blogs/sanitize/$', sanitize_blog, name='sanitize_blog'),
     # path(r'^blogs/upload/$', blog_upload_image, name='upload_blog_image'),
     # path(r'^blogs/tags/$', get_tags, name='get_tags'),

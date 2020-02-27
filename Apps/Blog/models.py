@@ -79,9 +79,9 @@ class Article(BaseAppModel):
     def __str__(self):
         return '%s-%s' % (self.id, self.name)
 
-    @property
-    def get_absolute_url(self):
-        return reverse('blogs:blog', kwargs={'slug': self.slug})
+    # @property
+    # def get_absolute_url(self):
+    #     return reverse('blog', kwargs={'slug': self.slug})
 
 
 # Comments model

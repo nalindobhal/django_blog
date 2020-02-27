@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load template_tags %}
+{% block content %}
+    <div class="article_container mar_padd">
+        {% for blog in blogs %}
+            <article class="sep_down">
+                <section class="child">
+                    <div>
+                        <div>
+                            {% if blog.wallpaper %}
+                                <img src="{{ blog.wallpaper.url }}" alt="Blog wallpaper"/>
+                            {% else %}
+                                <img src="/static/img/default_blog_wallpaper.jpg"
+                                     alt="Default blog wallpaper, Designed by Freepik"
+                                     title="Default blog wallpaper, Designed by Freepik"/>
+                            {% endif %}
+                        </div>
+                    </div>
+                </section>
+                <header class="child">
+                    <p class="heading">
+                        <a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a>
+                    </p>
+                    <div>
+                        <p>
+                            <span class="published_on">{{ blog.created_on | date }}</span>
+                            <span class="_sep"> | by </span>
+                            <a href="{{ blog.published_by.get_absolute_url }}">{{ blog.published_by.get_full_name }}</a>
+                            <span class="_sep"> on </span>
+                            <a href="{{ blog.topic.get_absolute_url }}">{{ blog.topic.name }}</a>
+                            <span class="_sep"> | </span>
+                            <span class="eta_read"
+                                  title="Time need to complete this article.">{{ blog.blog | wordscount }} min read</span>
+                            <span class="_sep"> | </span>
+                            <span class="views_count icon-visibility"
+                                  title="{{ blog.views_count }} user viewed this Article.">
+                                            <span>{{ blog.views_count }}</span>
+                                        </span>
+                        </p>
+                    </div>
+                    <div class="wrap_content">{{ blog.intro | safe | truncatewords:60 }}</div>
+{#                    <a href="{% url 'blog' slug=blog.slug %}" class="blog_continue">Continue#}
+{#                        Reading</a>#}
+                </header>
+            </article>
+        {% endfor %}
+    </div>
+{% endblock content %}

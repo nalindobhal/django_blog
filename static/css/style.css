@@ -86,164 +86,138 @@ h1 {
     background-color: #ab5dda;
 }
 
-.navbar li form {
-    margin: 10px 0 0;
-}
 
-.navbar li form input {
-    margin: 0;
-    background-color: #fefefe;
-}
-
-.first-row {
-    padding: 10% 0 50px 0;
-}
-
-#error_msg {
-    display: none;
-}
-
-div.text-left {
-    text-align: left
-}
-
-.button-outline {
-    font-size: 14px
-}
-
-div.form_wrap {
-    max-width: 600px;
-    margin: 55px auto;
-}
-
-div.form_wrap form .form_border {
-    border: 1px solid #f1f1f1;
+.article_container article {
+    position: relative;
     border-radius: 4px;
-    padding: 20px;
-    box-shadow: 0 0 2px 2px #efefef;
+    background-color: #fff;
+    padding: 20px 30px;
+    max-width: 750px;
+    margin: 0 auto;
 }
-
-div.form_wrap form .form_border input[type='file'] {
-    display: none
-}
-
-div.form_wrap form .form_border label {
-    width: 100%;
-    margin: 0;
-    color: #fff;
-    background: #1FB264;
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-    border-bottom: 4px solid #15824B;
-    /*transition: all .2s ease;*/
-    outline: none;
-    text-transform: uppercase;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-div.form_wrap form .form_border label#txt_file_label.disabled {
-    pointer-events: none;
-    background-color: gray;
-    border-bottom: 4px solid #616161;
-    cursor: not-allowed;
-}
-
-div.form_wrap form .form_border label:hover {
-    background: #1AA059;
-    color: #ffffff;
-    transition: all .2s ease;
-    cursor: pointer;
-}
-
-.div.form_wrap form .form_border label:active {
-    border: 0;
-    transition: all .2s ease;
-}
-
-div.form_wrap form .form_border span#txt_file_value {
-    visibility: hidden;
-    margin-top: 10px;
+#blog_page .article_container article {
     display: block;
-    font-size: 13px;
-    color: #758fda;
 }
 
-div.form_wrap form .form_border span#txt_file_value.show {
-    visibility: visible;
+.article_container article .child {
+    flex: 1 1 0;
 }
 
-div.form_wrap form .form_border p._or {
-    margin: 20px 0;
-    font-weight: bold;
-    font-size: 24px;
-}
-
-div.form_wrap form .form_border p.text {
-    font-size: 14px;
+.article_container article.sep_down {
     margin-bottom: 10px;
+}
+
+.article_container article.sep_down:last-child {
+    margin-bottom: 0;
+}
+
+.article_container article header {
+    margin: 15px 0 40px;
+}
+
+.article_container article header > p.heading {
+    font-size: 36px;
+    text-transform: capitalize;
+    word-spacing: 6px;
+    text-align: center;
+}
+
+.article_container article header > p.heading > a {
+    color: #1a476d;
     font-weight: 600;
+    /*font-family: sans-serif;*/
 }
 
-div.form_wrap form .form_border input[type='text'].disabled {
-    background-color: #d4d4d49e;
-    pointer-events: none;
-    cursor: not-allowed;
+.article_container article header > h1.heading {
+    font-size: 36px;
+    text-transform: capitalize;
+    word-spacing: 6px;
+    /*padding-top: 25px ;*/
+    text-align: center;
 }
 
-div.form_wrap form p.note {
-    font-size: 12px;
-    margin-top: 15px;
+.article_container article header > h1.heading > a {
+    color: #1a476d;
+    font-weight: 600;
+    font-family: sans-serif;
 }
 
-/* Word Cloud Page */
-div.other_clouds {
-    display: block;
-    width: 100%;
+.views_count:before {
+    content: '';
+    /*margin-right: 5px;*/
+    font-size: 15px;
+    vertical-align: -1px;
+    color: inherit;
 }
 
-div.other_clouds > h3 {
-    font-size: 40px;
-    margin: 35px 0;
-    border: 1px solid #b7b7b7;
+.article_container article header div {
+    text-align: center;
+    padding: 10px 5px;
+    /*margin: 20px 0;*/
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    /*border-top: 2px solid #636363;*/
+    /*border-bottom: 2px solid #636363;*/
 }
 
-div.other_clouds > div.other_clouds_inner {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+.article_container article header div.wrap_content {
+    font-size: 15px;
+    font-family: sans-serif;
+    color: #444;
+    font-weight: normal;
 }
 
-div.other_clouds > div.other_clouds_inner > div {
-    flex: 1 0 21%;
-    margin: 5px;
-    box-shadow: 0 0 2px 2px #cecece;
+.article_container article header div > p {
+    font-size: 14px;
 }
 
-div.other_clouds > div.other_clouds_inner > div > a {
-    outline: none;
+.article_container article header div > p > label {
+    font-weight: bold;
 }
 
-div.other_clouds > div.other_clouds_inner > div > a svg {
-    /*transform: scale(0.4) translate(-66%, -50%);*/
-    /*width: auto;*/
-    /*height: auto;*/
+._sep {
+    font-weight: normal;
 }
 
-#world-cloud {
-    display: flex;
-    flex-direction:row;
-    flex-wrap: wrap;
+.article_container article header div p span.published_on {
+    font-weight: 600;
+    color: #444;
 }
 
-#world-cloud svg {
-    flex: 1 0 44%;
-    margin: 20px;
-    box-shadow: 0 0 2px 2px #e1e1e1;
-    box-sizing: border-box;
-    cursor: pointer;
+.article_container article header div p span > span {
+    font-weight: bold;
+    font-family: sans-serif;
+    margin-left: 6px;
 }
+
+.article_container article header div p a {
+    /*color: #6283a5*/
+    color: #444;
+}
+
+.article_container article header div p a:hover {
+    color: #4a4a4a
+}
+
+.article_container article section {
+    position: relative;
+    margin-right: 20px;
+}
+
+.article_container article section > div > div {
+    font-size: 16px;
+    text-align: center;
+}
+
+.article_container article section > div > div > img {
+    max-height: 400px;
+}
+.article_container article header > div > div.wrap_content {
+    margin: 15px 0;
+    line-height: 27px;
+}
+
 
 @media (max-width: 768px) {
     .container {
