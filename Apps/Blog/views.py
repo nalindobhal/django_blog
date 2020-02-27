@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework import generics
 
 from .models import Article
-from .forms import UserCreationForm
+from .forms import UserCreationForm, ArticleForm
 from .serializers import ArticleSerializer
 
 
@@ -56,12 +56,11 @@ def index(request):
 class BlogApiView(generics.ListCreateAPIView):
 
     serializer_class = ArticleSerializer
-    renderer_classes = [TemplateHTMLRenderer]
 
     def get_queryset(self):
         return Article.objects.all()
 
     def get(self, request, *args, **kwargs):
         blogs = Article.objects.filter(published=True)
-        return Response({'blogs': blogs}, template_name='index.html')
+        return Response({'blogs': blogs, 'form': ArticleForm()}, template_name='index.html')
 
