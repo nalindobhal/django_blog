@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load template_tags %}
+{% load rest_framework %}
 {% block content %}
     <div class="article_container mar_padd">
         {% for blog in blogs %}
@@ -44,5 +45,12 @@
                 </header>
             </article>
         {% endfor %}
+        {% if source == 'add' %}
+        <form action="{% url 'blogs_page' %}" method="post" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            {% render_form serializer %}
+            <input type="submit" value="Add Blog" />
+        </form>
+        {% endif %}
     </div>
 {% endblock content %}

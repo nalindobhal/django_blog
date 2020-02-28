@@ -36,9 +36,9 @@ class ArticleCategory(BaseAppModel):
     def __str__(self):
         return '%s - %s' % (self.id, self.name)
 
-    @property
-    def get_absolute_url(self):
-        return reverse('blogs:category', kwargs={'slug': self.slug})
+    # @property
+    # def get_absolute_url(self):
+    #     return reverse('category', kwargs={'slug': self.slug})
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.slug = create_slug(self.name)
@@ -79,9 +79,9 @@ class Article(BaseAppModel):
     def __str__(self):
         return '%s-%s' % (self.id, self.name)
 
-    # @property
-    # def get_absolute_url(self):
-    #     return reverse('blog', kwargs={'slug': self.slug})
+    @property
+    def get_absolute_url(self):
+        return reverse('blog_view', kwargs={'slug': self.slug})
 
 
 # Comments model

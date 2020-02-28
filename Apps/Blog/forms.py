@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm as BaseUserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Article
+from .models import Article, ArticleCategory
 
 
 class UserCreationForm(BaseUserCreationForm):
@@ -23,6 +23,9 @@ class UserCreationForm(BaseUserCreationForm):
 
 class ArticleForm(forms.ModelForm):
 
+    category = forms.ModelMultipleChoiceField(queryset=ArticleCategory.objects.all())
+
     class Meta:
         model = Article
+        exclude = ['slug', 'published_by']
         fields = '__all__'

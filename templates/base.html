@@ -20,7 +20,7 @@
     <ul>
         <li><a class="active" href="{% url 'index_page' %}">Home</a></li>
         {% if request.user.is_authenticated %}
-            <li><a href="">Add Blog</a></li>
+            <li><a href="{% url 'add_blog' %}">Add Blog</a></li>
             <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
             <li><a href="{% url 'login' %}">Login</a></li>
