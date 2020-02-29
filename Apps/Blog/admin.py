@@ -8,11 +8,13 @@ class ArticleCategoryAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {'slug': ('name',)}
 
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     pass
+
+
+admin.site.register(Article, ArticleAdmin)

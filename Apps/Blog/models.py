@@ -9,7 +9,7 @@ class BaseAppModel(models.Model):
     """This is the base model for other models. This will provide fields for other models. Hence abstract =
     True"""
 
-    name = models.CharField('name', max_length=255, db_index=True, null=True, blank=True,
+    name = models.CharField('name', max_length=255, db_index=True,
                             help_text='this field will be used as name for models inheriting from this model')
     created_on = models.DateTimeField('created on', auto_now_add=True, auto_now=False)
     updated_on = models.DateTimeField('updated on', auto_now_add=False, auto_now=True)
@@ -24,8 +24,6 @@ class BaseAppModel(models.Model):
 class ArticleCategory(BaseAppModel):
 
     slug = models.SlugField('slug', max_length=50, blank=True, db_index=True)
-    photo = models.ImageField('photo', null=True, blank=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, db_index=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Category'
@@ -46,6 +44,12 @@ class ArticleCategory(BaseAppModel):
                      update_fields=None)
 
 
+class ArticleManager(models.Manager):
+
+    def get_queryset(self):
+        return super().get_queryset().select_related('published_by').prefetch_related('category')
+
+
 class Article(BaseAppModel):
 
     category = models.ManyToManyField(ArticleCategory, related_name='category', db_index=True,
@@ -61,14 +65,10 @@ class Article(BaseAppModel):
                                   help_text="wallpaper for the article. This image and its thumbnail "
                                             "will be used everywhere.")
 
-    published_on = models.DateTimeField('published on', null=True, blank=True,
-                                        help_text="date when the article was published.")
     published_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="user", db_index=True,
                                      help_text="User who published the article.", on_delete=models.CASCADE)
 
-    published = models.BooleanField('published', default=False, db_index=True,
-                                    help_text="If an article is published or not. "
-                                              "By default an article will be considered as draft.")
+    objects = ArticleManager()
 
     class Meta:
         verbose_name_plural = "Blog"
@@ -81,26 +81,26 @@ class Article(BaseAppModel):
 
     @property
     def get_absolute_url(self):
-        return reverse('blog_view', kwargs={'slug': self.slug})
+        return reverse('blog_view', kwargs={'blog_slug': self.slug})
+
+
+class CommentsManager(models.Manager):
+
+    def get_queryset(self):
+        return super().get_queryset().select_related('comment_by')
 
 
 # Comments model
 class Comment(BaseAppModel):
-    STATUS = (
-        (1, 'Allowed'),
-        (2, 'Deleted'),
-        (3, 'Spam'),
-    )
+
+    name = None
     comment = models.TextField('comment')
-    # image = models.FileField(null=True, blank=True, upload_to=generate_comment_upload_path,
-    #                          help_text="image for the comment")
 
     article = models.ForeignKey(Article, db_index=True, related_name="comment", on_delete=models.CASCADE)
     comment_by = models.ForeignKey(settings.AUTH_USER_MODEL, db_index=True, related_name='comment_by',
                                    on_delete=models.CASCADE)
 
-    status = models.PositiveIntegerField('status', choices=STATUS, default=1)
-    is_edited = models.BooleanField('is_edited', default=False)
+    objects = CommentsManager()
 
     class Meta:
         verbose_name_plural = "Comments"

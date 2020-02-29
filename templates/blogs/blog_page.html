@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load template_tags %}
+{% block content %}
+    <div class="article_container mar_padd">
+        <article class="sep_down">
+            {% if request.user.id == blog.published_by.id %}
+                <div id="edit_link">
+                    <a href="{% url 'blog_update' blog_slug=blog.slug %}">Edit</a>
+                </div>
+            {% endif %}
+            <section class="child">
+                <div>
+                    <div>
+                        <a href="{{ blog.get_absolute_url }}">
+                            {% if blog.wallpaper %}
+                                <img src="{{ blog.wallpaper }}" alt="Blog wallpaper"/>
+                            {% else %}
+                                <img src="{% static 'img/default_blog_wallpaper.jpg' %}"
+                                     alt="Default blog wallpaper, Designed by Freepik"
+                                     title="Default blog wallpaper, Designed by Freepik"/>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <header class="child">
+                <p class="heading">
+                    <a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a>
+                </p>
+                <div>
+                    <p>
+                        <span class="published_on">{{ blog.created_on }}</span>
+                        <span class="_sep"> | by </span>
+                        <a href="javascript:void(0);">{{ blog.published_by.full_name }}</a>
+                        <span class="_sep"> | </span>
+                        <span class="eta_read"
+                              title="Time need to complete this article.">{{ blog.blog | wordscount }} min read</span>
+                    </p>
+                </div>
+                <div class="wrap_content">{{ blog.intro | safe | truncatewords:60 }}</div>
+                <div class="blog_content_wrap">
+                    {{ blog.blog | safe }}
+                </div>
+            </header>
+            <div id="blog_categories">
+                <h4>Categories</h4>
+                <p>
+                    {% for i in blog.categories %}
+                        <span>{{ i }}</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div id="comments">
+                <h4>Comments</h4>
+                <ul class="comment-section">
+                    {% for comment in blog.comments %}
+                        <li class="comment user-comment">
+                            <div class="info">
+                                {% if comment.comment_by.full_name %}
+                                    <a href="#">{{ comment.comment_by.full_name }}</a>
+                                {% else %}
+                                    <a href="#">{{ comment.comment_by.username }}</a>
+                                {% endif %}
+                                <span>{{ comment.created_on }}</span>
+                            </div>
+                            <span class="avatar">{{ comment.initials }}</span>
+                            <p>{{ comment.comment }}</p>
+                        </li>
+                    {% endfor %}
+                    <li>
+                        <form action="{% url 'comment_add' blog_slug=blog.slug %}" method="post" class="row">
+                            {% csrf_token %}
+                            <input type="hidden" name="article" value="{{ blog.id }}">
+                            <input type="text" placeholder="Write your comment here" name="comment"
+                                   required="required"/>
+                            <div>
+                                <span>Writing as <b>{{ request.user.email }}</b></span>
+                                <button type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+
+            </div>
+        </article>
+    </div>
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+{% load static %}
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/quill.snow.css' %}" rel="stylesheet">
+{% endblock css %}
+{% block content %}
+    {{ errors }}
+    <div class="article_container mar_padd">
+        <form action="{{ form_url }}" method="post" enctype="multipart/form-data" id="blog_form">
+            {% csrf_token %}
+            {% render_form serializer %}
+            <input type="submit" value="{{ source }} Blog"/>
+        </form>
+    </div>
+{% endblock content %}
+{% block js %}
+    {{ block.super }}
+    <script>
+        let csrf = "{{ csrf_token }}";
+        let url = "{{ blog_slug }}";
+        let blog_data = {{ data | safe }};
+    </script>
+    <script src="{% static 'js/quill.min.js' %}"></script>
+    <script>
+        const quill_editor = new Quill('#blog_editor', {
+            modules: {
+                toolbar: [
+                    ['bold'], ['italic'], ['underline'], ['strike'],
+                    ['blockquote'], ['code-block'],
+                    [{
+                        'list': 'ordered'
+                    }],
+                    [{
+                        'list': 'bullet'
+                    }],
+                    [{
+                        'size': ['small', false, 'large', 'huge']
+                    }],
+                    ['link'], ['image'],
+                    ['clean']
+                ],
+            },
+            theme: 'snow',
+            placeholder: 'Write Something here....',
+        });
+        if (blog_data['blog']) {
+            quill_editor.root.innerHTML = blog_data['blog'];
+        }
+
+        $("#blog_form").on('submit', function (e) {
+            $('#hidden_blog_field').html(quill_editor.root.innerHTML)
+        })
+    </script>
+{% endblock js %}

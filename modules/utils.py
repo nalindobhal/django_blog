@@ -10,7 +10,7 @@ def create_slug(content, post_fix=None):
     return slugify(content)
 
 
-def generate_upload_path(instance, filename, img_type=None):
+def generate_upload_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/Article/article_<id>/<filename>
     model_name = ''
     if len(filename) > 100:
@@ -19,5 +19,6 @@ def generate_upload_path(instance, filename, img_type=None):
         model_name = str(instance._meta.db_table).lower()
     except Exception as e:
         print(e)
+        model_name = 'EE'
     return 'Article/article_{0} {1}/{2}/{3}'.format(instance.id, truncatewords(instance.slug, 10), model_name,
                                                               filename)
