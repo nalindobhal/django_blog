@@ -7,7 +7,7 @@
 {% block content %}
     <div class="login-page">
         <div class="form">
-            {{ errors }}
+            {{ form.errors }}
             <form class="register-form {% if request.path == '/accounts/login/' %}hidden{% endif %}" method="post"
                   action="{% url "signup" %}">
                 <p class="login_text_inner">Sign up to continue</p>
@@ -24,7 +24,7 @@
                   class="login-form {% if request.path == '/accounts/signup/' %}hidden{% endif %}" method="post">
                 <p class="login_text_inner">Log in to continue</p>
                 {% csrf_token %}
-                <input id="id_username" type="text" placeholder="Email" name="username" required/>
+                <input id="id_username" type="text" placeholder="Username" name="username" required/>
                 <input id="id_password" type="password" placeholder="Password" name="password" required/>
                 <button>login</button>
             </form>

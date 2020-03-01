@@ -4,9 +4,6 @@ from PIL import Image
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
-from django.core.files.storage import FileSystemStorage
-from django.db.models.functions import datetime
-from django.http.response import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.base import reverse
 from django.views.decorators.http import require_http_methods
@@ -19,7 +16,6 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework import generics
 
-from modules.utils import generate_upload_path
 from .models import Article
 from .forms import UserCreationForm
 from .serializers import ArticleSerializer, ArticleReadSerializer, CommentWriteSerializer
@@ -172,42 +168,3 @@ def submit_comment(request, blog_slug):
     if comment.is_valid(raise_exception=True):
         comment.save(**{'comment_by': request.user, 'article': article})
     return redirect(reverse('blog_view', kwargs={'blog_slug': blog_slug}))
-
-
-# @require_http_methods(['POST'])
-# def blog_upload_image(request):
-#     blog_token = request.POST.get("blog_slug")
-#     if blog_token is None:
-#         context = {"status": "error", "msg": "Blog Does not exist", "token": blog_token}
-#         return JsonResponse(context)
-#
-#     try:
-#         blog_instance = Article.objects.get(slug=blog_token)
-#     except Article.DoesNotExist as e:
-#         print("blog upload image, Article DND ", e)
-#         context = {"status": "error", "msg": "Blog does not exist", "token": blog_token}
-#         return JsonResponse(context)
-#
-#     if request.user.id != blog_instance.published_by_id:
-#         context = {"status": "error", "msg": "Unauthorised", "token": blog_token}
-#         return JsonResponse(context, status=403)
-#
-#     if len(request.FILES) == 1:
-#         request.files = request.FILES
-#
-#     filename = request.FILES["image"].name
-#
-#     pil_img = Image.open(request.FILES.get('image'))
-#     media_article_path = generate_upload_path(blog_instance, filename)
-#     fs = FileSystemStorage(location=media_article_path)
-#     filename = fs.save(filename, request.FILES['image'])
-#     save_path = media_article_path + filename
-#     pil_img.save(save_path, pil_img.format, quality=60)
-#
-#     context = {
-#         "status": "ok",
-#         "url": "%s://%s/%s" % (
-#             request.scheme, request.get_host(), 'media/' + media_article_path
-#         ),
-#     }
-#     return JsonResponse(context)
